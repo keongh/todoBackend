@@ -6,10 +6,13 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using TodoBackend.Models;
+using TodoBackend.Services;
 
 namespace TodoBackend
 {
@@ -25,7 +28,11 @@ namespace TodoBackend
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            string dbPassword = Environment.GetEnvironmentVariable("postgrePass");
+            services.AddDbContext<TodoContext>(opt =>
+                opt.UseNpgsql(string.Format(@"host=localhost;database=dotnetTodo;user id=keon;password={0}", dbPassword)));
             services.AddControllers();
+            services.AddSingleton<TodoService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
