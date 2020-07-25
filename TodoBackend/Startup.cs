@@ -26,11 +26,13 @@ namespace TodoBackend
             {
                 options.AddPolicy("CorsPolicy",
                     builder => builder.AllowAnyOrigin()
-                        .AllowAnyHeader());
+                        .AllowAnyHeader()
+                        .AllowAnyMethod());
             });
-            string dbPassword = Environment.GetEnvironmentVariable("postgrePass");
+            var dbPassword = Environment.GetEnvironmentVariable("postgresPass");
+            var dbUser = Environment.GetEnvironmentVariable("postgresUser");
             services.AddDbContext<TodoContext>(opt =>
-                opt.UseNpgsql(string.Format(@"host=localhost;database=dotnetTodo;user id=keon;password={0}", dbPassword)));
+                opt.UseNpgsql(string.Format(@"host=localhost;database=dotnetTodo;user id={1};password={0}", dbPassword, dbUser)));
             services.AddControllers();
             services.AddSingleton<TodoService>();
         }
