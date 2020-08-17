@@ -33,7 +33,7 @@ namespace TodoBackend
             var dbPassword = Environment.GetEnvironmentVariable("postgresPass");
             var dbUser = Environment.GetEnvironmentVariable("postgresUser");
             services.AddDbContext<TodoContext>(opt =>
-                opt.UseNpgsql(string.Format(@"host={3};database=dotnetTodo;user id={1};password={0}", dbPassword, dbUser, dbURL)));
+                opt.UseNpgsql(string.Format(@"host={2};database=dotnetTodo;user id={1};password={0}", dbPassword, dbUser, dbURL)));
             services.AddControllers();
             services.AddSingleton<TodoService>();
         }
