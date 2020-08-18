@@ -29,11 +29,12 @@ namespace TodoBackend
                         .AllowAnyHeader()
                         .AllowAnyMethod());
             });
-            var dbURL = Environment.GetEnvironmentVariable("DATABASE_URL");
-            var dbPassword = Environment.GetEnvironmentVariable("postgresPass");
-            var dbUser = Environment.GetEnvironmentVariable("postgresUser");
+            var dbHost = Environment.GetEnvironmentVariable("DB_HOST");
+            var dbName = Environment.GetEnvironmentVariable("DB_NAME");
+            var dbPassword = Environment.GetEnvironmentVariable("DB_PASSWORD");
+            var dbUser = Environment.GetEnvironmentVariable("DB_USER");
             services.AddDbContext<TodoContext>(opt =>
-                opt.UseNpgsql(string.Format(@"host={2};database=dotnetTodo;user id={1};password={0}", dbPassword, dbUser, dbURL)));
+                opt.UseNpgsql(string.Format(@"host={0};database={1};user id={2};password={3}", dbHost, dbName, dbUser, dbPassword)));
             services.AddControllers();
             services.AddSingleton<TodoService>();
         }
